@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - MutatedMinions",
+            "request": "launch",
+            "mainClass": "codechef.MutatedMinions",
+            "projectName": "darwinism_1b37ba94"
+        }
+    ]
+}
