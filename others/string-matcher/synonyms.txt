@@ -1,0 +1,16 @@
+amazing,surprising
+benefit,profit,yield
+brave,heroic
+cunning,sharp,slick
+enormous,massive
+hungry,empty,starved
+injured,harmed
+loyal,devoted
+old,senior
+partner,associate
+polite,cordial,gracious
+portion,piece,part
+sleepy,drowsy
+vacant,empty,deserted
+wet,damp,moist
+young,tenderfoot
