@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LinkedinStrategy implements Strategy {
+public class IndeedStrategy implements Strategy {
 
-    private static final String URL_FORMAT = "https://www.linkedin.com/jobs/search?keywords=Java+%s&start=%d";
+    static private final String URL_FORMAT = "https://www.indeed.com/jobs?q=java+%s&start=%d";
 
     protected Document getDocument(String searchString, int page) throws IOException {
 
@@ -32,8 +32,9 @@ public class LinkedinStrategy implements Strategy {
         try {
             while(true) {
 
-                Document document = getDocument(searchString, page++);
-                Elements jobPosts = document.select(".jobs-search-result-item");
+                Document document = getDocument(searchString, page);
+                page += 10;
+                Elements jobPosts = document.getElementsByClass("jobsearch-SerpJobCard");
                 if (jobPosts.isEmpty()) {
                     break;
                 }
@@ -41,16 +42,17 @@ public class LinkedinStrategy implements Strategy {
                 for (Element element : jobPosts) {
 
                     JobPosting jobPosting = new JobPosting();
-                    jobPosting.setTitle(element.select(".listed-job-posting__title").text());
-                    jobPosting.setCity(element.select(".listed-job-posting__location").text());
-                    jobPosting.setCompanyName(element.select(".listed-job-posting__company").text());
-                    jobPosting.setUrl(element.select("meta[itemprop=url]").first().attr("content"));
+                    jobPosting.setTitle(element.select(".turnstileLink").attr("title"));
+                    // jobPosting.setCity(element.select(".companyInfoWrapper").first().child(1).attr("data-rc-loc"));
+                    jobPosting.setCity(element.select(".location").text());
+                    jobPosting.setCompanyName(element.select(".company").text());
+                    jobPosting.setUrl(element.select(".turnstileLink").attr("href"));
                     jobPosting.setWebsiteName(URL_FORMAT);
 
-                    if (!jobPostings.contains(jobPosting)) {
-                        jobPostings.add(jobPosting);
-                    }
+                    jobPostings.add(jobPosting);
+
                 }
+//                break;
             }
         } catch (IOException e) {
 

@@ -1,5 +1,6 @@
 package com.codegym.task.task28.task2810;
 
+import com.codegym.task.task28.task2810.model.IndeedStrategy;
 import com.codegym.task.task28.task2810.model.LinkedinStrategy;
 import com.codegym.task.task28.task2810.model.Model;
 import com.codegym.task.task28.task2810.model.Provider;
@@ -9,13 +10,8 @@ public class Aggregator {
 
     public static void main(String[] args) {
 
-//        Provider provider = new Provider(new LinkedinStrategy());
-//        Controller controller = new Controller(provider);
-//
-//        controller.scan();
-
         HtmlView view = new HtmlView();
-        Model model = new Model(view, new Provider(new LinkedinStrategy()));
+        Model model = new Model(view, new Provider(new LinkedinStrategy()), new Provider(new IndeedStrategy()));
         Controller controller = new Controller(model);
 
         view.setController(controller);

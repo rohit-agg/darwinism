@@ -21,7 +21,7 @@ public class HtmlView implements View {
         try {
 
             Document document = getDocument();
-            Element element = document.select(".template").first();
+            Element element = document.getElementsByClass("template").first();
 
             Element baseElement = element.clone();
             baseElement.removeClass("template").removeAttr("style");
@@ -82,6 +82,6 @@ public class HtmlView implements View {
     }
 
     public void emulateCitySelection() {
-        controller.onCitySelected("Odessa");
+        controller.onCitySelected("San Francisco");
     }
 }
