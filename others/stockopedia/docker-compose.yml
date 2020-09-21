@@ -13,6 +13,7 @@ services:
   php-apache:
     build:
       context: ./
+    image: stockopedia-php-apache:latest
     container_name: stockopedia-web
     ports:
       - "80:80"

@@ -7,9 +7,24 @@ class Subscriptions extends CI_Controller {
         
         $this->load->model("subscription_model");
         
-        $data = $this->input->raw_input_stream;
-        $data = $this->security->xss_clean($data);
-        $data = json_decode($data, true);
+        try {
+            
+            $data = $this->input->raw_input_stream;
+            $data = $this->security->xss_clean($data);
+            $data = json_decode($data, true);
+            if (empty($data)) {
+                throw new Exception("Input is required");
+            }
+            
+        } catch (Exception $e) {
+            
+            $error_response = array(
+                "code" => $e->getCode(),
+                "message" => $e->getMessage()
+            );
+            return $this->output->set_status_header(400)
+                ->set_output(json_encode($error_response));
+        }
         
         $user_details = array(
             "email_id" => $data["email_id"]
@@ -28,15 +43,27 @@ class Subscriptions extends CI_Controller {
     }
     
     public function costs() {
-        
+    
         $this->load->model("plan_model");
         
-        $data = $this->input->raw_input_stream;
-        log_message("error", $data);
-        $data = $this->security->xss_clean($data);
-        $data = json_decode($data, true);
+        try {
         
-        log_message("error", print_r($data,1));
+            $data = $this->input->raw_input_stream;
+            $data = $this->security->xss_clean($data);
+            $data = json_decode($data, true);
+            if (empty($data)) {
+                throw new Exception("Input is required");
+            }
+            
+        } catch (Exception $e) {
+    
+            $error_response = array(
+                "code" => $e->getCode(),
+                "message" => $e->getMessage()
+            );
+            return $this->output->set_status_header(400)
+                ->set_output(json_encode($error_response));
+        }
         
         $monthly_cost = 0;
         $annual_cost = 0;

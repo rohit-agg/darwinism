@@ -2,6 +2,21 @@
 
 class Subscriptions_test extends TestCase {
     
+    public function test_costs_invalidMethod() {
+        
+        $this->request("HEAD", "/subscriptions/costs");
+        $this->assertResponseCode(400);
+    }
+    
+    public function test_costs_invalidInput() {
+        
+        $response = $this->request("POST", "/subscriptions/costs", "");
+        $response = json_decode($response, true);
+        
+        $this->assertResponseCode(400);
+        $this->assertEquals("Input is required", $response["message"]);
+    }
+    
     public function test_costs() {
     
         $input = array(
@@ -18,6 +33,21 @@ class Subscriptions_test extends TestCase {
         $this->assertArrayHasKey("annual_cost", $output);
         $this->assertEquals($output["monthly_cost"], 10);
         $this->assertEquals($output["annual_cost"], 75);
+    }
+    
+    public function test_create_invalidMethod() {
+        
+        $this->request("HEAD", "/subscriptions");
+        $this->assertResponseCode(404);
+    }
+    
+    public function test_create_invalidInput() {
+        
+        $response = $this->request("POST", "/subscriptions", "");
+        $response = json_decode($response, true);
+        
+        $this->assertResponseCode(400);
+        $this->assertEquals("Input is required", $response["message"]);
     }
     
     public function test_create() {
