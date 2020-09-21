@@ -27,13 +27,16 @@ class Subscriptions extends CI_Controller {
         $this->output->set_status_header(201);
     }
     
-    public function cost() {
+    public function costs() {
         
         $this->load->model("plan_model");
         
         $data = $this->input->raw_input_stream;
+        log_message("error", $data);
         $data = $this->security->xss_clean($data);
         $data = json_decode($data, true);
+        
+        log_message("error", print_r($data,1));
         
         $monthly_cost = 0;
         $annual_cost = 0;

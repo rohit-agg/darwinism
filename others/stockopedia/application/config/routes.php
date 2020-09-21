@@ -55,5 +55,5 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['plans']['get'] = "plans/find";
 $route['plans/(:num)']['get'] = "plans/findOne/$1";
-$route['subscriptions/cost']['post'] = "subscriptions/cost";
+$route['subscriptions/costs']['post'] = "subscriptions/costs";
 $route['subscriptions']['post'] = "subscriptions/create";
