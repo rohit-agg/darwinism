@@ -9,7 +9,7 @@ class Plan_model extends CI_Model {
         $this->db->where("active", "yes");
         $this->db->from("plans");
         $query = $this->db->get();
-        return $query->row();
+        return $query->row_array();
     }
     
     public function filter_plan_list(array $filters, $fields = array()) {
@@ -29,6 +29,6 @@ class Plan_model extends CI_Model {
         
         $this->db->from("plans");
         $query = $this->db->get();
-        return $query->result();
+        return $query->result_array();
     }
 }

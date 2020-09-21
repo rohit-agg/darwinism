@@ -3,12 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Subscriptions extends CI_Controller {
     
-    public function index_post() {
+    public function create() {
         
         $this->load->model("subscription_model");
         
-        $data = $this->input->input_stream();
-        $data = json_decode($data);
+        $data = $this->input->raw_input_stream;
+        $data = $this->security->xss_clean($data);
+        $data = json_decode($data, true);
         
         $user_details = array(
             "email_id" => $data["email_id"]
@@ -16,23 +17,26 @@ class Subscriptions extends CI_Controller {
         
         $plan_details = array();
         foreach ($data["plans"] as $plan_id => $frequency) {
-            $plan_details = array(
+            $plan_details[] = array(
                 "plan_id" => $plan_id,
                 "frequency" => $frequency
             );
         }
         
         $this->subscription_model->create_subscriptions($user_details, $plan_details);
+        $this->output->set_status_header(201);
     }
     
-    public function cost_post() {
+    public function cost() {
         
         $this->load->model("plan_model");
         
-        $data = $this->input->input_stream();
-        $data = json_decode($data);
+        $data = $this->input->raw_input_stream;
+        $data = $this->security->xss_clean($data);
+        $data = json_decode($data, true);
         
-        $cost = 0;
+        $monthly_cost = 0;
+        $annual_cost = 0;
         
         $fields = array("id", "monthly_cost", "annual_cost");
         $filters = array("id" => array_keys($data["plans"]));
@@ -44,9 +48,20 @@ class Subscriptions extends CI_Controller {
                 continue;
             }
             
-            $cost += strcasecmp($data["plans"][$plan["id"]], "monthly") ? $plan["monthly_cost"] : $plan["annual_cost"];
+            if (strcasecmp($data["plans"][$plan["id"]], "monthly") === 0) {
+                $monthly_cost += $plan["monthly_cost"];
+            } else {
+                $annual_cost += $plan["annual_cost"];
+            }
         }
         
-        return json_encode(array("annual_cost" => $cost));
+        $response = array(
+            "monthly_cost" => $monthly_cost,
+            "annual_cost" => $annual_cost
+        );
+        
+        $this->output
+            ->set_content_type("application/json")
+            ->set_output(json_encode($response));
     }
 }

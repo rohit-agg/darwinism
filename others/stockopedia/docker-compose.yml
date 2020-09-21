@@ -1,0 +1,22 @@
+version: "2"
+services:
+  mysql:
+    image: mysql:latest
+    container_name: stockopedia-db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=stockopedia
+      - MYSQL_USER=stockopedia
+      - MYSQL_PASSWORD=stockopedia
+  php-apache:
+    build:
+      context: ./
+    container_name: stockopedia-web
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql

@@ -5,8 +5,8 @@ class Migration_Initial_setup extends CI_Migration {
     
     public function up() {
     
+        $this->dbforge->add_field("id");
         $this->dbforge->add_field(array(
-            "id" => array(),
             "code" => array(
                 "type" => "CHAR",
                 "constraint" => 4,
@@ -32,15 +32,14 @@ class Migration_Initial_setup extends CI_Migration {
             ),
             "active" => array(
                 "type" => "ENUM",
-                "constraint" => array("yes,no"),
+                "constraint" => array("yes", "no"),
                 "null" => false
             )
         ));
-        $this->dbforge->add_key("code");
         $this->dbforge->create_table("plans");
-        
+    
+        $this->dbforge->add_field("id");
         $this->dbforge->add_field(array(
-            "id" => array(),
             "email_id" => array(
                 "type" => "VARCHAR",
                 "constraint" => 64,
@@ -54,12 +53,12 @@ class Migration_Initial_setup extends CI_Migration {
             ),
             "frequency" => array(
                 "type" => "ENUM",
-                "constraint" => "monthly,annually",
+                "constraint" => array("monthly", "annually"),
                 "null" => false
             ),
             "active" => array(
                 "type" => "ENUM",
-                "constraint" => array("yes,no"),
+                "constraint" => array("yes", "no"),
                 "null" => false
             )
         ));

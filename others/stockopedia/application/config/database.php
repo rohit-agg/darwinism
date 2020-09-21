@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'stockopedia-db',
 	'username' => 'stockopedia',
 	'password' => 'stockopedia',
 	'database' => 'stockopedia',
